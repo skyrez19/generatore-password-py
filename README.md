@@ -1,5 +1,5 @@
-#🔐 Generatore causale di password
-#####Scritto in Python
+## 🔐 Generatore causale di password
+##### Scritto in Python
 
 - A cosa serve?
 Questo programma ti permetterà di generare una password random, della lunghezza che preferisci.
