@@ -1,4 +1,5 @@
 import tkinter as tk
+from tkinter import messagebox
 import random, string, os
 
 # setup della finestra
@@ -9,25 +10,50 @@ finestra.grid_columnconfigure(0, weight=1)
 finestra.resizable(False, False)
 
 def generaPassword():
-    # controllo che la password sia stata inserita
+    # controllo che la lunghezza sia stata inserita
     if lunghezzaInput.get():
         # prendo la lunghezza
-        lunghezza = int(lunghezzaInput.get())
-    # altrimenti, default 14
-    else:
+        lunghezza = lunghezzaInput.get()
+        lunghezza = str(lunghezza)
+
+        # controllo che la lunghezza sia un numero
+        if lunghezza.isnumeric():
+            # numero intero
+            lunghezza = int(lunghezza)
+
+            # controllo che la lunghezza sia di almeno 6 caratteri
+            if lunghezza < 6:
+                # mostro l'errore della lunghezza minima
+                messagebox.showerror("Errore", "La lunghezza minima è di 6 caratteri")
+            else:
+                # genero la password
+                caratteri = string.ascii_letters + string.digits + '!@#$%^&*()'
+                random.seed = (os.urandom(1024))
+                password = (''.join(random.choice(caratteri) for i in range(lunghezza)))
+
+                # stampo il risultato
+                messaggio = tk.Label(text=("PASSWORD DI %s CARATTERI GENERATA CON SUCCESSO" % lunghezza), font=("Arial 8 bold"),fg="green")
+                messaggio.grid(row=5, column=0, sticky="N", pady=(10, 10))
+                risultato = tk.Text(finestra, height=5)
+                risultato.insert(tk.END, password)
+                risultato.grid(row=6, column=0, sticky="WE", padx=50, pady=0)
+        else:
+            # avviso che la lunghezza non è valida - password non generata
+            messagebox.showerror("Errore", "La lunghezza non è valida")
+
+    else: # altrimenti, default 14
         lunghezza = 14
+        # genero la password
+        caratteri = string.ascii_letters + string.digits + '!@#$%^&*()'
+        random.seed = (os.urandom(1024))
+        password = (''.join(random.choice(caratteri) for i in range(lunghezza)))
 
-    # genero la password
-    caratteri = string.ascii_letters + string.digits + '!@#$%^&*()'
-    random.seed = (os.urandom(1024))
-    password = (''.join(random.choice(caratteri) for i in range(lunghezza)))
-
-    # stampo il risultato
-    messaggio = tk.Label(text=("PASSWORD DI %s CARATTERI GENERATA CON SUCCESSO" % lunghezza), font=("Arial 8 bold"),fg="green")
-    messaggio.grid(row=5, column=0, sticky="N", pady=(10, 10))
-    risultato = tk.Text(finestra, height=5)
-    risultato.insert(tk.END, password)
-    risultato.grid(row=6, column=0, sticky="WE", padx=50, pady=0)
+        # stampo il risultato
+        messaggio = tk.Label(text=("PASSWORD DI %s CARATTERI GENERATA CON SUCCESSO" % lunghezza), font=("Arial 8 bold"),fg="green")
+        messaggio.grid(row=5, column=0, sticky="N", pady=(10, 10))
+        risultato = tk.Text(finestra, height=5)
+        risultato.insert(tk.END, password)
+        risultato.grid(row=6, column=0, sticky="WE", padx=50, pady=0)
 
 # testo iniziale
 intestazione = tk.Label(finestra, text="GENERATORE CASUALE DI PASSWORD", font=("Arial 16 bold"))
